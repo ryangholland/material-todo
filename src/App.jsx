@@ -12,7 +12,21 @@ import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
+import {useState} from "react";
+
+
+
 function App() {
+  const [tasks, setTasks] = useState(["This is an example task."]);
+  const [text, setText] = useState("");
+
+  function handleTaskSubmit(e) {
+    e.preventDefault();
+
+    setTasks([...tasks, text])
+    setText("")
+  }
+
   return (
     <>
       <CssBaseline />
@@ -31,18 +45,22 @@ function App() {
           }}
         >
           <Container maxWidth="sm">
-            <form onSubmit={console.log("Form submitted")}>
+            <form onSubmit={handleTaskSubmit}>
               <FormControl variant="standard" fullWidth>
-                <TextField
-                  id="standard-basic"
-                  label="Enter a new task"
-                  variant="standard"
-                  fullWidth
-                  sx={{ mb: 2 }}
-                />
-                <Button variant="contained" type="submit">
-                  Add Task
-                </Button>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <TextField
+                    id="standard-basic"
+                    label="Enter a new task"
+                    variant="standard"
+                    fullWidth
+                    sx={{ mb: 2 }}
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                  />
+                  <Button variant="contained" type="submit">
+                    +
+                  </Button>
+                </Stack>
               </FormControl>
             </form>
           </Container>
@@ -55,14 +73,18 @@ function App() {
           }}
         >
           <Container maxWidth="sm">
-            <Card variant="outlined" sx={{p:2}}>
-              <Stack direction="row" spacing={1} alignItems="center">
-                <Checkbox />
-                <Typography>
-                  This is a task. Yep. A task.
-                </Typography>
-              </Stack>
-            </Card>
+            <Stack spacing={2}>
+            {tasks.map((task) => {
+              return (
+                <Card key={task} variant="outlined" sx={{ p: 2 }}>
+                  <Stack direction="row" spacing={1} alignItems="center">
+                    <Checkbox />
+                    <Typography>{task}</Typography>
+                  </Stack>
+                </Card>
+              );
+            })}
+            </Stack>
           </Container>
         </Box>
       </main>
