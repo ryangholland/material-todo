@@ -19,7 +19,7 @@ function Task(props) {
   const [expand, setExpand] = useState(false);
 
   return (
-    <Accordion expanded={expand}>
+    <Accordion expanded={expand} >
       <AccordionSummary
         expandIcon={
           <ExpandMoreIcon
@@ -29,6 +29,7 @@ function Task(props) {
         }
         aria-controls="panel1bh-content"
         id="panel1bh-header"
+        sx={{ backgroundColor: task.completed && "success.dark" }}
       >
         <Stack direction="row" spacing={1} alignItems="center">
           <Checkbox onChange={() => props.onToggleCompleted(task.id)}/>
@@ -37,7 +38,7 @@ function Task(props) {
           </Typography>
         </Stack>
       </AccordionSummary>
-      <AccordionDetails>
+      <AccordionDetails sx={{ backgroundColor: task.completed && "success.dark" }}>
         <Typography variant="body2" align="center" gutterBottom>
           Added:{" "}
           {task.date.toLocaleString("en-US", {
@@ -60,7 +61,7 @@ function Task(props) {
           <Button variant="contained" color="secondary">
             <ArrowDownwardIcon />
           </Button>
-          <Button variant="contained" color="error">
+          <Button variant="contained" color="error" onClick={() => props.onDeleteTask(task.id)}>
             <DeleteForeverIcon />
           </Button>
         </Stack>

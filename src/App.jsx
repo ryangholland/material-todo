@@ -72,6 +72,14 @@ function App() {
     );
   }
 
+  function handleDeleteTask(id) {
+    setTasks(
+      tasks.filter((task) => {
+        return task.id !== id;
+      })
+    );
+  }
+
   return (
     <>
       <ThemeProvider theme={darkTheme}>
@@ -136,7 +144,14 @@ function App() {
               </Stack>
               <Stack spacing={2}>
                 {tasks.map((task) => {
-                  return <Task task={task} key={task.id} onToggleCompleted={handleToggleCompleted}></Task>;
+                  return (
+                    <Task
+                      task={task}
+                      key={task.id}
+                      onToggleCompleted={handleToggleCompleted}
+                      onDeleteTask={handleDeleteTask}
+                    ></Task>
+                  );
                 })}
               </Stack>
             </Container>
