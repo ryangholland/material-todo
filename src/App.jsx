@@ -86,15 +86,30 @@ function App() {
           }}
         >
           <Container maxWidth="sm">
+            <Stack
+              direction="row"
+              justifyContent="space-around"
+              spacing={2}
+              sx={{ mb: 2 }}
+            >
+              <Button size="small" variant="contained">
+                All Tasks
+              </Button>
+              <Button size="small" variant="outlined">
+                In Progess
+              </Button>
+              <Button size="small" variant="outlined">
+                Completed
+              </Button>
+            </Stack>
             <Stack spacing={2}>
               {tasks.map((task) => {
-                return (
-                  <Task task={task} key={task.id}></Task>
-                );
+                return <Task task={task} key={task.id}></Task>;
               })}
             </Stack>
           </Container>
         </Box>
+        <hr></hr>
       </main>
     </>
   );
