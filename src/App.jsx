@@ -12,6 +12,8 @@ import Link from "@mui/material/Link";
 import AddIcon from "@mui/icons-material/Add";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Modal from "@mui/material/Modal";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 import { useState } from "react";
 
@@ -27,7 +29,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {"Created by "}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="https://github.com/ryangholland">
         Ryan Holland
       </Link>
       {" © "}
@@ -44,11 +46,13 @@ function App() {
       date: new Date(),
       notes: "",
       completed: false,
+      visible: true,
     },
   ];
   const [tasks, setTasks] = useState(exampleTasks);
   const [titleInput, setTitleInput] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [visible, setVisible] = useState("all");
 
   const handleModalOpen = () => setModalOpen(true);
   const handleModalClose = () => setModalOpen(false);
@@ -64,6 +68,7 @@ function App() {
       date: new Date(),
       notes: "",
       completed: false,
+      visible: true,
     };
 
     setTasks([...tasks, newTask]);
@@ -96,8 +101,43 @@ function App() {
   }
 
   function handleDeleteAll() {
-    setTasks([])
+    setTasks([]);
     handleModalClose();
+  }
+
+  function handleTaskFilter(event, newFilter) {
+    if (newFilter === "all") {
+      setTasks(
+        tasks.map((task) => {
+          task.visible = true;
+          return task;
+        })
+      );
+    } else if (newFilter === "progress") {
+      setTasks(
+        tasks.map((task) => {
+          if (task.completed) {
+            task.visible = false;
+          } else {
+            task.visible = true;
+          }
+          return task;
+        })
+      );
+    } else {
+      setTasks(
+        tasks.map((task) => {
+          if (task.completed) {
+            task.visible = true;
+          } else {
+            task.visible = false;
+          }
+          return task;
+        })
+      );
+    }
+
+    setVisible(newFilter);
   }
 
   return (
@@ -146,22 +186,27 @@ function App() {
             }}
           >
             <Container maxWidth="md">
-              <Stack
-                direction="row"
-                justifyContent="space-around"
-                spacing={2}
+              <ToggleButtonGroup
+                value={visible}
+                exclusive
+                size="small"
+                aria-label="text alignment"
+                fullWidth
+                color="primary"
                 sx={{ mb: 2 }}
+                onChange={handleTaskFilter}
               >
-                <Button size="small" variant="contained">
+                <ToggleButton value="all" aria-label="All Tasks">
                   All Tasks
-                </Button>
-                <Button size="small" variant="outlined">
-                  In Progess
-                </Button>
-                <Button size="small" variant="outlined">
+                </ToggleButton>
+                <ToggleButton value="progress" aria-label="In Progress">
+                  In Progress
+                </ToggleButton>
+                <ToggleButton value="completed" aria-label="Completed">
                   Completed
-                </Button>
-              </Stack>
+                </ToggleButton>
+              </ToggleButtonGroup>
+
               {tasks.length === 0 && (
                 <Typography variant="h5" align="center" sx={{ mt: 4 }}>
                   You have nothing to do!
@@ -169,14 +214,16 @@ function App() {
               )}
               <Stack spacing={2}>
                 {tasks.map((task) => {
-                  return (
-                    <Task
-                      task={task}
-                      key={task.id}
-                      onToggleCompleted={handleToggleCompleted}
-                      onDeleteTask={handleDeleteTask}
-                    ></Task>
-                  );
+                  if (task.visible) {
+                    return (
+                      <Task
+                        task={task}
+                        key={task.id}
+                        onToggleCompleted={handleToggleCompleted}
+                        onDeleteTask={handleDeleteTask}
+                      ></Task>
+                    );
+                  }
                 })}
               </Stack>
               {tasks.length > 0 && (
@@ -193,7 +240,12 @@ function App() {
                   >
                     Clear Completed
                   </Button>
-                  <Button size="small" variant="outlined" color="error" onClick={handleModalOpen}>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    color="error"
+                    onClick={handleModalOpen}
+                  >
                     Clear All
                   </Button>
                 </Stack>
@@ -220,12 +272,25 @@ function App() {
                 textAlign: "center",
               }}
             >
-              <Typography id="modal-modal-title" variant="h6" component="h2" >
+              <Typography id="modal-modal-title" variant="h6" component="h2">
                 Are you sure you want to clear all tasks?
               </Typography>
-              <Stack direction="row" justifyContent="space-around" spacing={1} sx={{mt:2}}>
-                <Button variant="outlined" onClick={handleModalClose}>Cancel</Button>
-                <Button variant="outlined" color="error" onClick={handleDeleteAll}>Clear All</Button>
+              <Stack
+                direction="row"
+                justifyContent="space-around"
+                spacing={1}
+                sx={{ mt: 2 }}
+              >
+                <Button variant="outlined" onClick={handleModalClose}>
+                  Cancel
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={handleDeleteAll}
+                >
+                  Clear All
+                </Button>
               </Stack>
             </Box>
           </Modal>

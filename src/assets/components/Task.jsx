@@ -32,7 +32,7 @@ function Task(props) {
         sx={{ backgroundColor: task.completed && "success.dark" }}
       >
         <Stack direction="row" spacing={1} alignItems="center">
-          <Checkbox onChange={() => props.onToggleCompleted(task.id)}/>
+          <Checkbox onChange={() => props.onToggleCompleted(task.id)} checked={task.completed} />
           <Typography variant="body2" sx={{ textDecoration: task.completed && "line-through" }}>
             {task.title}
           </Typography>
