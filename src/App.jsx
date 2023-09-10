@@ -51,6 +51,8 @@ function App() {
   function handleTaskSubmit(e) {
     e.preventDefault();
 
+    if (titleInput === "") return;
+
     const newTask = {
       id: crypto.randomUUID(),
       title: titleInput,
@@ -76,6 +78,14 @@ function App() {
     setTasks(
       tasks.filter((task) => {
         return task.id !== id;
+      })
+    );
+  }
+
+  function handleClearCompleted() {
+    setTasks(
+      tasks.filter((task) => {
+        return task.completed === false;
       })
     );
   }
@@ -142,6 +152,11 @@ function App() {
                   Completed
                 </Button>
               </Stack>
+              {tasks.length === 0 && (
+                <Typography variant="h5" align="center" sx={{ mt: 4 }}>
+                  You have nothing to do!
+                </Typography>
+              )}
               <Stack spacing={2}>
                 {tasks.map((task) => {
                   return (
@@ -154,6 +169,20 @@ function App() {
                   );
                 })}
               </Stack>
+              {tasks.length > 0 && (
+                <Stack
+                  direction="row"
+                  sx={{ mt: 2, mx: 2 }}
+                  justifyContent="space-between"
+                >
+                  <Button size="small" variant="outlined" color="success" onClick={handleClearCompleted}>
+                    Clear Completed
+                  </Button>
+                  <Button size="small" variant="outlined" color="error">
+                    Clear All
+                  </Button>
+                </Stack>
+              )}
             </Container>
           </Box>
           <hr></hr>
