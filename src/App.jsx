@@ -11,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import AddIcon from "@mui/icons-material/Add";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Modal from "@mui/material/Modal";
 
 import { useState } from "react";
 
@@ -47,6 +48,10 @@ function App() {
   ];
   const [tasks, setTasks] = useState(exampleTasks);
   const [titleInput, setTitleInput] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleModalOpen = () => setModalOpen(true);
+  const handleModalClose = () => setModalOpen(false);
 
   function handleTaskSubmit(e) {
     e.preventDefault();
@@ -88,6 +93,11 @@ function App() {
         return task.completed === false;
       })
     );
+  }
+
+  function handleDeleteAll() {
+    setTasks([])
+    handleModalClose();
   }
 
   return (
@@ -175,16 +185,50 @@ function App() {
                   sx={{ mt: 2, mx: 2 }}
                   justifyContent="space-between"
                 >
-                  <Button size="small" variant="outlined" color="success" onClick={handleClearCompleted}>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    color="success"
+                    onClick={handleClearCompleted}
+                  >
                     Clear Completed
                   </Button>
-                  <Button size="small" variant="outlined" color="error">
+                  <Button size="small" variant="outlined" color="error" onClick={handleModalOpen}>
                     Clear All
                   </Button>
                 </Stack>
               )}
             </Container>
           </Box>
+          <Modal
+            open={modalOpen}
+            onClose={handleModalClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box
+              sx={{
+                position: "absolute",
+                top: "40%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                width: "90%",
+                bgcolor: "background.paper",
+                border: "2px solid #000",
+                boxShadow: 24,
+                p: 4,
+                textAlign: "center",
+              }}
+            >
+              <Typography id="modal-modal-title" variant="h6" component="h2" >
+                Are you sure you want to clear all tasks?
+              </Typography>
+              <Stack direction="row" justifyContent="space-around" spacing={1} sx={{mt:2}}>
+                <Button variant="outlined" onClick={handleModalClose}>Cancel</Button>
+                <Button variant="outlined" color="error" onClick={handleDeleteAll}>Clear All</Button>
+              </Stack>
+            </Box>
+          </Modal>
           <hr></hr>
           <Box sx={{ bgcolor: "background.paper", p: 1 }} component="footer">
             <Copyright />
