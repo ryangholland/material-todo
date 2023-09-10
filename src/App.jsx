@@ -37,8 +37,6 @@ function App() {
       completed: false,
     };
 
-    console.log(newTask);
-
     setTasks([...tasks, newTask]);
     setTitleInput("");
   }
