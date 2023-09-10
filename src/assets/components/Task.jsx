@@ -55,12 +55,7 @@ function Task(props) {
           sx={{ marginBlock: "1rem" }}
         />
         <Stack direction="row" spacing={4} justifyContent="center">
-          <Button variant="contained" color="secondary">
-            <ArrowUpwardIcon />
-          </Button>
-          <Button variant="contained" color="secondary">
-            <ArrowDownwardIcon />
-          </Button>
+
           <Button variant="contained" color="error" onClick={() => props.onDeleteTask(task.id)}>
             <DeleteForeverIcon />
           </Button>
