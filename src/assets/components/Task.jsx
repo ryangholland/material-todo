@@ -10,6 +10,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
+import TextField from '@mui/material/TextField';
 
 import { useState } from "react";
 
@@ -37,9 +38,18 @@ function Task(props) {
         </Stack>
       </AccordionSummary>
       <AccordionDetails>
-        <Typography variant="body2" gutterBottom>
+        <Typography variant="body2" align="center" gutterBottom>
           Date Added: {task.date.toUTCString()}
         </Typography>
+        <TextField
+          id="outlined-multiline-static"
+          label="Notes"
+          multiline
+          rows={4}
+          defaultValue=""
+          fullWidth
+          sx={{marginBlock: '1rem'}}
+        />
         <Stack direction="row" spacing={4} justifyContent="center">
           <Button variant="contained"><ArrowUpwardIcon /></Button>
           <Button variant="contained"><ArrowDownwardIcon /></Button>
