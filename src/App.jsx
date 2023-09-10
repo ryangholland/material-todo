@@ -8,10 +8,30 @@ import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import Link from "@mui/material/Link";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { useState } from "react";
 
 import Task from "./assets/components/Task";
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="text.secondary" align="center">
+      {"Created by "}
+      <Link color="inherit" href="https://mui.com/">
+        Ryan Holland
+      </Link>{" © "}
+      {new Date().getFullYear()}
+    </Typography>
+  );
+}
 
 function App() {
   const exampleTasks = [
@@ -43,6 +63,7 @@ function App() {
 
   return (
     <>
+      <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <AppBar position="relative">
         <Toolbar>
@@ -58,7 +79,7 @@ function App() {
             pb: 2,
           }}
         >
-          <Container maxWidth="sm">
+          <Container maxWidth="md">
             <form onSubmit={handleTaskSubmit}>
               <FormControl variant="standard" fullWidth>
                 <Stack direction="row" spacing={1} alignItems="center">
@@ -85,7 +106,7 @@ function App() {
             pb: 2,
           }}
         >
-          <Container maxWidth="sm">
+          <Container maxWidth="md">
             <Stack
               direction="row"
               justifyContent="space-around"
@@ -110,7 +131,11 @@ function App() {
           </Container>
         </Box>
         <hr></hr>
+        <Box sx={{ bgcolor: "background.paper", p: 1 }} component="footer">
+          <Copyright />
+        </Box>
       </main>
+      </ThemeProvider>
     </>
   );
 }

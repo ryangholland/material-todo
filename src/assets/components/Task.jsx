@@ -51,8 +51,8 @@ function Task(props) {
           sx={{marginBlock: '1rem'}}
         />
         <Stack direction="row" spacing={4} justifyContent="center">
-          <Button variant="contained"><ArrowUpwardIcon /></Button>
-          <Button variant="contained"><ArrowDownwardIcon /></Button>
+          <Button variant="contained" color="secondary"><ArrowUpwardIcon /></Button>
+          <Button variant="contained" color="secondary"><ArrowDownwardIcon /></Button>
           <Button variant="contained" color="error"><DeleteForeverIcon /></Button>
         </Stack>
       </AccordionDetails>
