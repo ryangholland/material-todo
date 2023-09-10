@@ -1,20 +1,17 @@
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Card from "@mui/material/Card";
-import Checkbox from "@mui/material/Checkbox";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import FormControl from "@mui/material/FormControl";
-import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
-import {useState} from "react";
+import { useState } from "react";
 
-
+import Task from "./assets/components/Task";
 
 function App() {
   const exampleTasks = [
@@ -23,8 +20,9 @@ function App() {
       title: "This is an example task",
       date: new Date(),
       notes: "",
-    }
-  ]
+      completed: false,
+    },
+  ];
   const [tasks, setTasks] = useState(exampleTasks);
   const [titleInput, setTitleInput] = useState("");
 
@@ -36,10 +34,13 @@ function App() {
       title: titleInput,
       date: new Date(),
       notes: "",
-    }
+      completed: false,
+    };
 
-    setTasks([...tasks, newTask])
-    setTitleInput("")
+    console.log(newTask);
+
+    setTasks([...tasks, newTask]);
+    setTitleInput("");
   }
 
   return (
@@ -88,16 +89,11 @@ function App() {
         >
           <Container maxWidth="sm">
             <Stack spacing={2}>
-            {tasks.map((task) => {
-              return (
-                <Card key={task.id} variant="outlined" sx={{ p: 1 }}>
-                  <Stack direction="row" spacing={1} alignItems="center">
-                    <Checkbox />
-                    <Typography>{task.title}</Typography>
-                  </Stack>
-                </Card>
-              );
-            })}
+              {tasks.map((task) => {
+                return (
+                  <Task task={task} key={task.id}></Task>
+                );
+              })}
             </Stack>
           </Container>
         </Box>
