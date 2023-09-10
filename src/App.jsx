@@ -17,14 +17,29 @@ import {useState} from "react";
 
 
 function App() {
-  const [tasks, setTasks] = useState(["This is an example task."]);
-  const [text, setText] = useState("");
+  const exampleTasks = [
+    {
+      id: crypto.randomUUID(),
+      title: "This is an example task",
+      date: new Date(),
+      notes: "",
+    }
+  ]
+  const [tasks, setTasks] = useState(exampleTasks);
+  const [titleInput, setTitleInput] = useState("");
 
   function handleTaskSubmit(e) {
     e.preventDefault();
 
-    setTasks([...tasks, text])
-    setText("")
+    const newTask = {
+      id: crypto.randomUUID(),
+      title: titleInput,
+      date: new Date(),
+      notes: "",
+    }
+
+    setTasks([...tasks, newTask])
+    setTitleInput("")
   }
 
   return (
@@ -53,9 +68,8 @@ function App() {
                     label="Enter a new task"
                     variant="standard"
                     fullWidth
-                    sx={{ mb: 2 }}
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
+                    value={titleInput}
+                    onChange={(e) => setTitleInput(e.target.value)}
                   />
                   <Button variant="contained" type="submit">
                     +
@@ -76,10 +90,10 @@ function App() {
             <Stack spacing={2}>
             {tasks.map((task) => {
               return (
-                <Card key={task} variant="outlined" sx={{ p: 2 }}>
+                <Card key={task.id} variant="outlined" sx={{ p: 1 }}>
                   <Stack direction="row" spacing={1} alignItems="center">
                     <Checkbox />
-                    <Typography>{task}</Typography>
+                    <Typography>{task.title}</Typography>
                   </Stack>
                 </Card>
               );
