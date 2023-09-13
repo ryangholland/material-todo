@@ -15,7 +15,7 @@ import Modal from "@mui/material/Modal";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Task from "./assets/components/Task";
 
@@ -49,10 +49,14 @@ function App() {
       visible: true,
     },
   ];
-  const [tasks, setTasks] = useState(exampleTasks);
+  const [tasks, setTasks] = useState(() => JSON.parse(localStorage.getItem("taskList")) ?? exampleTasks);
   const [titleInput, setTitleInput] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [visible, setVisible] = useState("all");
+
+  useEffect(() => {
+    localStorage.setItem("taskList", JSON.stringify(tasks))
+  }, [tasks])
 
   const handleModalOpen = () => setModalOpen(true);
   const handleModalClose = () => setModalOpen(false);
